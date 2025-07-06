@@ -14,7 +14,7 @@ public interface RocketStatusHandlers {
             if (r.getId() == id) {
                 switch (status) {
                     case "ON_GROUND":
-                        if(compareStatus(r.getStatus(), RocketStatus.ON_GROUND)) {
+                        if (compareStatus(r.getStatus(), RocketStatus.ON_GROUND)) {
                             break;
                         }
 
@@ -26,7 +26,7 @@ public interface RocketStatusHandlers {
                         System.out.println(successChange(r) + "ON_GROUND. Current mission disconnected");
                         break;
                     case "IN_SPACE":
-                        if(compareStatus(r.getStatus(), RocketStatus.IN_SPACE)) {
+                        if (compareStatus(r.getStatus(), RocketStatus.IN_SPACE)) {
                             break;
                         }
 
@@ -39,7 +39,7 @@ public interface RocketStatusHandlers {
                         }
                         break;
                     case "IN_REPAIR":
-                        if(compareStatus(r.getStatus(), RocketStatus.IN_SPACE)) {
+                        if (compareStatus(r.getStatus(), RocketStatus.IN_SPACE)) {
                             break;
                         }
                         if (r.getMission() != null) {
