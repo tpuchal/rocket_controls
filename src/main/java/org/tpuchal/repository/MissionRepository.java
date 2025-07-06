@@ -2,14 +2,15 @@ package org.tpuchal.repository;
 
 import org.tpuchal.model.Mission;
 import org.tpuchal.model.Rocket;
+import org.tpuchal.model.enums.RocketStatus;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class MissionRepository {
-    private static Set<Mission> missionSet = new HashSet<>();
+    private static final Set<Mission> missionSet = new HashSet<>();
 
-    public static void addMission(Mission mission) throws Exception {
+    public static void addMission(Mission mission) throws IllegalArgumentException {
         if (mission == null) {
             throw new IllegalArgumentException("Mission cannot be null");
         }
@@ -25,8 +26,13 @@ public class MissionRepository {
         if (missionSet.contains(mission)) {
             for(Rocket r : mission.getRocketSet()) {
                 r.setMission(null);
+                if(r.getStatus().equals(RocketStatus.IN_SPACE)) {
+                    RocketRepository.deleteRocket(r);
+                } else {
+                    r.setStatus(RocketStatus.ON_GROUND);
+                }
             }
-            mission.setRocketSet(null);
+            mission.setRocketSet(new HashSet<>());
             missionSet.remove(mission);
         } else {
             throw new IllegalArgumentException("Cannot delete. No such mission");

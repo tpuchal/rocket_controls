@@ -2,11 +2,9 @@ package org.tpuchal;
 
 import org.tpuchal.banner.AppBanner;
 import org.tpuchal.banner.HelpBanner;
-import org.tpuchal.utils.MissionHandlers;
-import org.tpuchal.utils.RelationHandlers;
-import org.tpuchal.utils.RocketHandlers;
-import org.tpuchal.utils.UserInputUtils;
+import org.tpuchal.utils.*;
 
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -61,6 +59,14 @@ public class App {
                 case "mission-add-rocket":
                     int[] sanitizedIds = UserInputUtils.retrieveTwoIdsFromInput(parts);
                     RelationHandlers.handleRocketToMissionConnection(sanitizedIds[0], sanitizedIds[1]);
+                    break;
+                case "rocket-status-change":
+                    Map<Integer,String> map = UserInputUtils.changeRocketStatus(parts);
+                    int id = map.keySet().iterator().next().intValue();
+                    RocketStatusHandlers.changeRocketStatus(id, map.get(id));
+                    break;
+                case "mission-end":
+                    MissionHandlers.handleMissionEnd(UserInputUtils.retreiveIdFromInput(parts));
                     break;
                 case "help":
                     HelpBanner.displayHelpBanner();

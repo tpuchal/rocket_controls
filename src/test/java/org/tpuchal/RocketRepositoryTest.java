@@ -282,11 +282,11 @@ public class RocketRepositoryTest extends TestCase {
             assertEquals("Mission's rockets should contain 1 Rocket", 1, testMission.getRocketSet().size());
 
             RocketRepository.deleteRocket(testRocket);
-            assertEquals("Mission should not contain rocket", false, testMission.getRocketSet().contains(testRocket));
-            assertEquals("Rocket's mission should be null", null, testRocket.getMission());
+            assertFalse("Mission should not contain rocket", testMission.getRocketSet().contains(testRocket));
+            assertNull("Rocket's mission should be null", testRocket.getMission());
 
         } catch (Exception e) {
-            fail("Exception occured: " + e.getMessage());
+            fail("Exception occurred: " + e.getMessage());
         }
     }
 }

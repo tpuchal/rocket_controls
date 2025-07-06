@@ -281,4 +281,246 @@ public class RelationHandlersTest extends TestCase {
             fail("Repository state should remain unchanged: " + e.getMessage());
         }
     }
+
+    public void testUpdateMissionStatus_EmptyRocketSet() throws Exception {
+        Mission testMission = new Mission("Test Mission");
+        assertTrue("Mission should start with empty rocket set", testMission.getRocketSet().isEmpty());
+
+        RelationHandlers.updateMissionStatus(testMission);
+
+        assertEquals("Mission with no rockets should be SCHEDULED",
+                MissionStatus.SCHEDULED, testMission.getStatus());
+    }
+
+    public void testUpdateMissionStatus_SingleRocketOnGround() throws Exception {
+        Rocket rocket1 = new Rocket("Rocket 1");
+        Mission testMission = new Mission("Test Mission");
+        rocket1.setStatus(RocketStatus.ON_GROUND);
+        testMission.getRocketSet().add(rocket1);
+
+        RelationHandlers.updateMissionStatus(testMission);
+
+        assertEquals("Mission with rocket ON_GROUND should be IN_PROGRESS",
+                MissionStatus.IN_PROGRESS, testMission.getStatus());
+    }
+
+    public void testUpdateMissionStatus_SingleRocketInSpace() throws Exception {
+        Rocket rocket1 = new Rocket("Rocket 1");
+        Mission testMission = new Mission("Test Mission");
+        rocket1.setStatus(RocketStatus.IN_SPACE);
+        testMission.getRocketSet().add(rocket1);
+
+        RelationHandlers.updateMissionStatus(testMission);
+
+        assertEquals("Mission with rocket IN_SPACE should be IN_PROGRESS",
+                MissionStatus.IN_PROGRESS, testMission.getStatus());
+    }
+
+    public void testUpdateMissionStatus_SingleRocketInRepair() throws Exception {
+        Rocket rocket1 = new Rocket("Rocket 1");
+        Mission testMission = new Mission("Test Mission");
+        rocket1.setStatus(RocketStatus.IN_REPAIR);
+        testMission.getRocketSet().add(rocket1);
+
+        RelationHandlers.updateMissionStatus(testMission);
+
+        assertEquals("Mission with rocket IN_REPAIR should be PENDING",
+                MissionStatus.PENDING, testMission.getStatus());
+    }
+
+    public void testUpdateMissionStatus_MultipleRocketsNoRepair() throws Exception {
+        Rocket rocket1 = new Rocket("Rocket 1");
+        Rocket rocket2 = new Rocket("Rocket 2");
+        Rocket rocket3 = new Rocket("Rocket 3");
+        Mission testMission = new Mission("Test Mission");
+
+        rocket1.setStatus(RocketStatus.ON_GROUND);
+        rocket2.setStatus(RocketStatus.IN_SPACE);
+        rocket3.setStatus(RocketStatus.ON_GROUND);
+
+        testMission.getRocketSet().add(rocket1);
+        testMission.getRocketSet().add(rocket2);
+        testMission.getRocketSet().add(rocket3);
+
+        RelationHandlers.updateMissionStatus(testMission);
+
+        assertEquals("Mission with multiple rockets (no repair) should be IN_PROGRESS",
+                MissionStatus.IN_PROGRESS, testMission.getStatus());
+    }
+
+    public void testUpdateMissionStatus_MultipleRocketsWithOneInRepair() throws Exception {
+        Rocket rocket1 = new Rocket("Rocket 1");
+        Rocket rocket2 = new Rocket("Rocket 2");
+        Rocket rocket3 = new Rocket("Rocket 3");
+        Mission testMission = new Mission("Test Mission");
+
+        rocket1.setStatus(RocketStatus.ON_GROUND);
+        rocket2.setStatus(RocketStatus.IN_REPAIR);
+        rocket3.setStatus(RocketStatus.IN_SPACE);
+
+        testMission.getRocketSet().add(rocket1);
+        testMission.getRocketSet().add(rocket2);
+        testMission.getRocketSet().add(rocket3);
+
+        RelationHandlers.updateMissionStatus(testMission);
+
+        assertEquals("Mission with any rocket IN_REPAIR should be PENDING",
+                MissionStatus.PENDING, testMission.getStatus());
+    }
+
+    public void testUpdateMissionStatus_MultipleRocketsAllInRepair() throws Exception {
+        Rocket rocket1 = new Rocket("Rocket 1");
+        Rocket rocket2 = new Rocket("Rocket 2");
+        Rocket rocket3 = new Rocket("Rocket 3");
+        Mission testMission = new Mission("Test Mission");
+
+        rocket1.setStatus(RocketStatus.IN_REPAIR);
+        rocket2.setStatus(RocketStatus.IN_REPAIR);
+        rocket3.setStatus(RocketStatus.IN_REPAIR);
+
+        testMission.getRocketSet().add(rocket1);
+        testMission.getRocketSet().add(rocket2);
+        testMission.getRocketSet().add(rocket3);
+
+        RelationHandlers.updateMissionStatus(testMission);
+
+        assertEquals("Mission with all rockets IN_REPAIR should be PENDING",
+                MissionStatus.PENDING, testMission.getStatus());
+    }
+
+    public void testUpdateMissionStatus_StatusTransitions() throws Exception {
+        Rocket rocket1 = new Rocket("Rocket 1");
+        Mission testMission = new Mission("Test Mission");
+
+        RelationHandlers.updateMissionStatus(testMission);
+        assertEquals("Should start as SCHEDULED", MissionStatus.SCHEDULED, testMission.getStatus());
+
+        testMission.getRocketSet().add(rocket1);
+        rocket1.setStatus(RocketStatus.IN_REPAIR);
+        RelationHandlers.updateMissionStatus(testMission);
+        assertEquals("Should change to PENDING", MissionStatus.PENDING, testMission.getStatus());
+
+        testMission.getRocketSet().clear();
+        RelationHandlers.updateMissionStatus(testMission);
+        assertEquals("Should change back to SCHEDULED", MissionStatus.SCHEDULED, testMission.getStatus());
+    }
+
+    public void testHandleRocketStatusChange_WithValidRocketAndMission() throws Exception {
+        Rocket rocket1 = new Rocket("Rocket 1");
+        Mission testMission = new Mission("Test Mission");
+
+        rocket1.setStatus(RocketStatus.ON_GROUND);
+        rocket1.setMission(testMission);
+        testMission.getRocketSet().add(rocket1);
+
+        testMission.setStatus(MissionStatus.SCHEDULED);
+
+        RelationHandlers.handleRocketStatusChange(rocket1);
+
+        assertEquals("Mission status should be updated to IN_PROGRESS",
+                MissionStatus.IN_PROGRESS, testMission.getStatus());
+    }
+
+    public void testHandleRocketStatusChange_WithRocketInRepair() throws Exception {
+        Rocket rocket1 = new Rocket("Rocket 1");
+        Mission testMission = new Mission("Test Mission");
+
+        rocket1.setStatus(RocketStatus.IN_REPAIR);
+        rocket1.setMission(testMission);
+        testMission.getRocketSet().add(rocket1);
+
+        RelationHandlers.handleRocketStatusChange(rocket1);
+
+        assertEquals("Mission status should be updated to PENDING",
+                MissionStatus.PENDING, testMission.getStatus());
+    }
+
+    public void testHandleRocketStatusChange_WithNullRocketStatus() throws Exception {
+        Rocket rocket1 = new Rocket("Rocket 1");
+        Mission testMission = new Mission("Test Mission");
+
+        rocket1.setStatus(null);
+        rocket1.setMission(testMission);
+        testMission.getRocketSet().add(rocket1);
+
+        testMission.setStatus(MissionStatus.SCHEDULED);
+
+        RelationHandlers.handleRocketStatusChange(rocket1);
+
+        assertEquals("Mission status should not change with null rocket status",
+                MissionStatus.SCHEDULED, testMission.getStatus());
+    }
+
+    public void testHandleRocketStatusChange_WithNullMission() throws Exception {
+        Rocket rocket1 = new Rocket("Rocket 1");
+
+        rocket1.setStatus(RocketStatus.ON_GROUND);
+        rocket1.setMission(null);
+
+        try {
+            RelationHandlers.handleRocketStatusChange(rocket1);
+
+        } catch (NullPointerException e) {
+            assertTrue("NPE is expected when rocket has no mission", true);
+        }
+    }
+
+
+    public void testHandleRocketStatusChangeWithMission_RocketInRepair() throws Exception {
+        Rocket rocket1 = new Rocket("Rocket 1");
+        Mission testMission = new Mission("Test Mission");
+
+        rocket1.setStatus(RocketStatus.IN_REPAIR);
+        testMission.getRocketSet().add(rocket1);
+
+        RelationHandlers.handleRocketStatusChange(rocket1, testMission);
+
+        assertEquals("Mission status should be updated to PENDING",
+                MissionStatus.PENDING, testMission.getStatus());
+    }
+
+    public void testHandleRocketStatusChangeWithMission_NullRocketStatus() throws Exception {
+        Rocket rocket1 = new Rocket("Rocket 1");
+        Mission testMission = new Mission("Test Mission");
+
+        rocket1.setStatus(null);
+        testMission.getRocketSet().add(rocket1);
+
+        testMission.setStatus(MissionStatus.IN_PROGRESS);
+
+        RelationHandlers.handleRocketStatusChange(rocket1, testMission);
+
+        assertEquals("Mission status should not change with null rocket status",
+                MissionStatus.IN_PROGRESS, testMission.getStatus());
+    }
+
+    public void testEdgeCase_NullMissionParameter() throws Exception {
+        Rocket rocket1 = new Rocket("Rocket 1");
+        rocket1.setStatus(RocketStatus.ON_GROUND);
+
+        try {
+            RelationHandlers.handleRocketStatusChange(rocket1, null);
+            fail("Should throw NullPointerException for null mission");
+        } catch (NullPointerException e) {
+            assertTrue("NPE is expected for null mission parameter", true);
+        }
+    }
+
+    public void testEdgeCase_NullRocketParameter() throws Exception {
+        Mission testMission = new Mission("Test Mission");
+
+        try {
+            RelationHandlers.handleRocketStatusChange(null);
+            fail("Should throw NullPointerException for null rocket");
+        } catch (NullPointerException e) {
+            assertTrue("NPE is expected for null rocket parameter", true);
+        }
+
+        try {
+            RelationHandlers.handleRocketStatusChange(null, testMission);
+            fail("Should throw NullPointerException for null rocket");
+        } catch (NullPointerException e) {
+            assertTrue("NPE is expected for null rocket parameter", true);
+        }
+    }
 }

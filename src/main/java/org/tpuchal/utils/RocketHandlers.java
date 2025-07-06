@@ -17,7 +17,7 @@ public interface RocketHandlers {
 
     static void handleRocketAdd(String name) throws Exception {
         Rocket r = new Rocket(name);
-        System.out.println("New rocket added: \n" + r.toString());
+        System.out.println("New rocket added: \n" + r);
     }
 
     static void handleRocketDelete(int id) {

@@ -17,6 +17,19 @@ __Those are my conscious decisions and not lack of knowledge or skills.__
 Some of the methods have not been covered by tests simply because they are so heavily depenent on already tested solutions that it is not necessary to test them.
 Examples of this would be MissionHandlers.java and RocketHandlers.java interfaces and some of their methods
 
+## My assumptions
+I have decided that missions and rockets should be connected by IDs.
+I have chosen int because it is enough for this solution. I highly doubt anybody is going to send billions of rockets into space (by the time they do they probably wont use such simple system)
+
+Changing rocket's status to ON_GROUND when it is connected to a mission, disconnects the rocket from a mission.
+
+When user disconnects the last rocket by changing it's status to ON_GROUND, the mission does not end, it changes it's status to SCHEDULED
+
+Rocket cannot have IN_REPAIR status when it's not connected to a mission
+
+When mission ends all the rockets are repaired (see the point above) and can be connected to a new mission
+
+
 
 
 

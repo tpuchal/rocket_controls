@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class RocketRepository {
-    private static Set<Rocket> rocketSet = new HashSet<>();
+    private static final Set<Rocket> rocketSet = new HashSet<>();
 
-    public static void addRocket(Rocket rocket) throws Exception {
+    public static void addRocket(Rocket rocket) throws IllegalArgumentException {
         if (rocket == null) {
             throw new IllegalArgumentException("Rocket cannot be null");
         }

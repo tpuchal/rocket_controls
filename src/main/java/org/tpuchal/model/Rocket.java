@@ -32,10 +32,6 @@ public class Rocket {
         this.id = idCounter++;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -60,14 +56,14 @@ public class Rocket {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Rocket information:\n");
-        sb.append("Rocket id: " + this.id + "\n");
-        sb.append("Rocket name: " + this.name + "\n");
+        sb.append("Rocket id: ").append(this.id).append("\n");
+        sb.append("Rocket name: ").append(this.name).append("\n");
         if (mission == null) {
             sb.append("Mission: none\n");
         } else {
-            sb.append("Mission: " + this.mission.getMissionName() + " (ID: " + this.mission.getId() + ")\n");
+            sb.append("Mission: ").append(this.mission.getMissionName()).append(" (ID: ").append(this.mission.getId()).append(")\n");
         }
-        sb.append("Rocket status: " + this.status + "\n");
+        sb.append("Rocket status: ").append(this.status).append("\n");
 
         return sb.toString();
     }

@@ -67,11 +67,11 @@ public class Mission {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("=========MISSION: ");
-        sb.append(this.getMissionName() + "=========\n");
-        sb.append("Mission Id: " + this.getId() + "\n");
-        sb.append("Mission Status: " + this.getStatus() + "\n");
+        sb.append(this.getMissionName()).append("=========\n");
+        sb.append("Mission Id: ").append(this.getId()).append("\n");
+        sb.append("Mission Status: ").append(this.getStatus()).append("\n");
         sb.append("Rockets: \n");
-        sb.append(rockets() + "\n");
+        sb.append(rockets()).append("\n");
 
         return sb.toString();
     }

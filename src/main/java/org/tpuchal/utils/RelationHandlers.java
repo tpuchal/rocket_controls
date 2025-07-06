@@ -61,5 +61,12 @@ public interface RelationHandlers {
         if (rocket.getStatus() != null) {
             updateMissionStatus(rocket.getMission());
         }
+
+    }
+
+    static void handleRocketStatusChange(Rocket rocket, Mission m) {
+        if (rocket.getStatus() != null) {
+            updateMissionStatus(m);
+        }
     }
 }

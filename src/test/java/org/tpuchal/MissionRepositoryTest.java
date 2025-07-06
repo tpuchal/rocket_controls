@@ -4,8 +4,6 @@ import junit.framework.TestCase;
 import org.tpuchal.model.Mission;
 import org.tpuchal.model.Rocket;
 import org.tpuchal.repository.MissionRepository;
-import org.tpuchal.repository.RocketRepository;
-
 import java.lang.reflect.Field;
 import java.util.Set;
 
@@ -23,15 +21,6 @@ public class MissionRepositoryTest extends TestCase {
         missionSetField.setAccessible(true);
         Set<Mission> missionSet = (Set<Mission>) missionSetField.get(null);
         missionSet.clear();
-    }
-
-    /**
-     * Helper method to reset the static ID counter in Mission class
-     */
-    private void resetIdCounter() throws Exception {
-        Field idCounterField = Mission.class.getDeclaredField("idCounter");
-        idCounterField.setAccessible(true);
-        idCounterField.setInt(null, 0);
     }
 
     public void testAddMission_NewMission() {
@@ -275,7 +264,7 @@ public class MissionRepositoryTest extends TestCase {
 
             MissionRepository.deleteMission(testMission);
             assertEquals("Repository should be empty", 0, MissionRepository.getMissionSet().size());
-            assertEquals("Rocket's mission should be null", null, testRocket.getMission());
+            assertNull("Rocket's mission should be null", testRocket.getMission());
 
         } catch (Exception e) {
             fail("Exception occured: " + e.getMessage());
