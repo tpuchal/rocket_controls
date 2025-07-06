@@ -62,7 +62,7 @@ public class App {
                     break;
                 case "rocket-status-change":
                     Map<Integer,String> map = UserInputUtils.changeRocketStatus(parts);
-                    int id = map.keySet().iterator().next().intValue();
+                    int id = map.keySet().iterator().next();
                     RocketStatusHandlers.changeRocketStatus(id, map.get(id));
                     break;
                 case "mission-end":

@@ -53,9 +53,7 @@ public class Rocket {
     }
 
     public boolean isMissionNull() {
-        if (this.mission == null)
-            return true;
-        return false;
+        return this.mission == null;
     }
 
     @Override

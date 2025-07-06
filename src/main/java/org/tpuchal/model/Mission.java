@@ -13,7 +13,7 @@ public class Mission {
     private Set<Rocket> rocketSet = new HashSet<>();
     private MissionStatus status;
 
-    public Mission(String missionName) throws Exception {
+    public Mission(String missionName) {
         this.setId();
         this.setMissionName(missionName);
         this.setStatus(MissionStatus.SCHEDULED);
@@ -65,14 +65,13 @@ public class Mission {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("=========MISSION: ");
-        sb.append(this.getMissionName()).append("=========\n");
-        sb.append("Mission Id: ").append(this.getId()).append("\n");
-        sb.append("Mission Status: ").append(this.getStatus()).append("\n");
-        sb.append("Rockets: \n");
-        sb.append(rockets()).append("\n");
+        String sb = "=========MISSION: " +
+                this.getMissionName() + "=========\n" +
+                "Mission Id: " + this.getId() + "\n" +
+                "Mission Status: " + this.getStatus() + "\n" +
+                "Rockets: \n" +
+                rockets() + "\n";
 
-        return sb.toString();
+        return sb;
     }
 }
