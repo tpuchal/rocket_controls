@@ -1,7 +1,9 @@
 package org.tpuchal;
 
 import junit.framework.TestCase;
+import org.tpuchal.model.Mission;
 import org.tpuchal.model.Rocket;
+import org.tpuchal.repository.MissionRepository;
 import org.tpuchal.repository.RocketRepository;
 
 import java.util.Set;
@@ -9,17 +11,9 @@ import java.lang.reflect.Field;
 
 public class RocketRepositoryTest extends TestCase {
 
-    private Rocket rocket1;
-    private Rocket rocket2;
-    private Rocket rocket3;
-
     protected void setUp() throws Exception {
         super.setUp();
         clearRocketRepository();
-
-        rocket1 = new Rocket("Super Rocket 1");
-        rocket2 = new Rocket("Ultra rocket 2");
-        rocket3 = new Rocket("Giga Rocket 3");
     }
 
     protected void tearDown() throws Exception {
@@ -256,7 +250,8 @@ public class RocketRepositoryTest extends TestCase {
             try {
                 RocketRepository.addRocket(null);
                 fail("Adding null should throw exception");
-            } catch (IllegalArgumentException e) {}
+            } catch (IllegalArgumentException e) {
+            }
 
             Set<Rocket> rockets = RocketRepository.getRocketSet();
             assertEquals("Repository should still contain 1 rocket after failed null addition", 1, rockets.size());
@@ -270,6 +265,28 @@ public class RocketRepositoryTest extends TestCase {
 
         } catch (Exception e) {
             fail("Exception occurred: " + e.getMessage());
+        }
+    }
+
+    public void testDeleteRocket_DeleteCorrectlyNullifiesRocketMissions() {
+        try {
+            clearRocketRepository();
+            Mission testMission = new Mission("Test Mission");
+            Rocket testRocket = new Rocket("Test Rocket");
+
+            testRocket.setMission(testMission);
+            testMission.getRocketSet().add(testRocket);
+
+
+            assertEquals("Repository should contain 1 Mission", 1, MissionRepository.getMissionSet().size());
+            assertEquals("Mission's rockets should contain 1 Rocket", 1, testMission.getRocketSet().size());
+
+            RocketRepository.deleteRocket(testRocket);
+            assertEquals("Mission should not contain rocket", false, testMission.getRocketSet().contains(testRocket));
+            assertEquals("Rocket's mission should be null", null, testRocket.getMission());
+
+        } catch (Exception e) {
+            fail("Exception occured: " + e.getMessage());
         }
     }
 }

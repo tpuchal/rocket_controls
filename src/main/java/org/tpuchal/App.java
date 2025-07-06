@@ -3,6 +3,7 @@ package org.tpuchal;
 import org.tpuchal.banner.AppBanner;
 import org.tpuchal.banner.HelpBanner;
 import org.tpuchal.utils.MissionHandlers;
+import org.tpuchal.utils.RelationHandlers;
 import org.tpuchal.utils.RocketHandlers;
 import org.tpuchal.utils.UserInputUtils;
 
@@ -56,6 +57,10 @@ public class App {
                     break;
                 case "mission-delete":
                     MissionHandlers.handleMissionDelete(UserInputUtils.retreiveIdFromInput(parts));
+                    break;
+                case "mission-add-rocket":
+                    int[] sanitizedIds = UserInputUtils.retrieveTwoIdsFromInput(parts);
+                    RelationHandlers.handleRocketToMissionConnection(sanitizedIds[0], sanitizedIds[1]);
                     break;
                 case "help":
                     HelpBanner.displayHelpBanner();

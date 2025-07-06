@@ -54,10 +54,10 @@ public class Mission {
 
     private String rockets() {
         StringBuilder sb = new StringBuilder();
-        if(this.getRocketSet().isEmpty()) {
+        if (this.getRocketSet().isEmpty()) {
             return "No rockets assigned";
         }
-        for(Rocket rocket : this.getRocketSet()) {
+        for (Rocket rocket : this.getRocketSet()) {
             sb.append(rocket);
         }
         return sb.toString();

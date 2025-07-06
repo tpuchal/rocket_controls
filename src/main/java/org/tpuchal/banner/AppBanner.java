@@ -1,6 +1,6 @@
 package org.tpuchal.banner;
 
-public  class AppBanner {
+public class AppBanner {
     public static void printBanner() {
         System.out.print("\n\noooooooooo.                                                                                                .                      oooo                              .o  \n" +
                 "`888'   `Y8b                                                                                             .o8                      `888                            o888  \n" +

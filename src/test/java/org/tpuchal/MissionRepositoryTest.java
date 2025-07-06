@@ -16,7 +16,6 @@ public class MissionRepositoryTest extends TestCase {
     }
 
     /**
-     *
      * Helper method to clear the static rocket repository using reflection
      */
     private void clearMissionRepository() throws Exception {
@@ -27,7 +26,6 @@ public class MissionRepositoryTest extends TestCase {
     }
 
     /**
-     *
      * Helper method to reset the static ID counter in Mission class
      */
     private void resetIdCounter() throws Exception {
@@ -86,7 +84,7 @@ public class MissionRepositoryTest extends TestCase {
         try {
             clearMissionRepository();
 
-            try{
+            try {
                 MissionRepository.addMission(null);
                 fail("Adding null mission should throw IllegalArgumentException");
             } catch (IllegalArgumentException e) {
@@ -245,7 +243,8 @@ public class MissionRepositoryTest extends TestCase {
             try {
                 MissionRepository.addMission(null);
                 fail("Adding null should throw exception");
-            } catch (IllegalArgumentException e) {}
+            } catch (IllegalArgumentException e) {
+            }
 
             Set<Mission> Missions = MissionRepository.getMissionSet();
             assertEquals("Repository should still contain 1 Mission after failed null addition", 1, Missions.size());
@@ -259,6 +258,27 @@ public class MissionRepositoryTest extends TestCase {
 
         } catch (Exception e) {
             fail("Exception occurred: " + e.getMessage());
+        }
+    }
+
+    public void testDeleteMission_DeleteCorrectlyNullifiesRocketMissions() {
+        try {
+            clearMissionRepository();
+            Mission testMission = new Mission("Test Mission");
+            Rocket testRocket = new Rocket("Test Rocket");
+
+            testMission.getRocketSet().add(testRocket);
+            testRocket.setMission(testMission);
+
+            assertEquals("Repository should contain 1 Mission", 1, MissionRepository.getMissionSet().size());
+            assertEquals("Mission's rockets should contain 1 Rocket", 1, testMission.getRocketSet().size());
+
+            MissionRepository.deleteMission(testMission);
+            assertEquals("Repository should be empty", 0, MissionRepository.getMissionSet().size());
+            assertEquals("Rocket's mission should be null", null, testRocket.getMission());
+
+        } catch (Exception e) {
+            fail("Exception occured: " + e.getMessage());
         }
     }
 }

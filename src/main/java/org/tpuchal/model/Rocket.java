@@ -60,8 +60,13 @@ public class Rocket {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Rocket information:\n");
-        sb.append("Rocket id: " + this.id +"\n");
+        sb.append("Rocket id: " + this.id + "\n");
         sb.append("Rocket name: " + this.name + "\n");
+        if (mission == null) {
+            sb.append("Mission: none\n");
+        } else {
+            sb.append("Mission: " + this.mission.getMissionName() + " (ID: " + this.mission.getId() + ")\n");
+        }
         sb.append("Rocket status: " + this.status + "\n");
 
         return sb.toString();

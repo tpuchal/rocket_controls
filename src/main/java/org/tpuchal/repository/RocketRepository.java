@@ -9,11 +9,11 @@ public class RocketRepository {
     private static Set<Rocket> rocketSet = new HashSet<>();
 
     public static void addRocket(Rocket rocket) throws Exception {
-        if(rocket == null) {
+        if (rocket == null) {
             throw new IllegalArgumentException("Rocket cannot be null");
         }
 
-        if(!rocketSet.contains(rocket)) {
+        if (!rocketSet.contains(rocket)) {
             rocketSet.add(rocket);
         } else {
             throw new IllegalArgumentException("This rocket already exists");
@@ -21,7 +21,11 @@ public class RocketRepository {
     }
 
     public static void deleteRocket(Rocket rocket) {
-        if(rocketSet.contains(rocket)) {
+        if (rocketSet.contains(rocket)) {
+            if (rocket.getMission() != null) {
+                rocket.getMission().getRocketSet().remove(rocket);
+                rocket.setMission(null);
+            }
             rocketSet.remove(rocket);
         } else {
             throw new IllegalArgumentException("Cannot delete. No such rocket");

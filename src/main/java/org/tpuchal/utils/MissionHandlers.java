@@ -6,12 +6,12 @@ import org.tpuchal.repository.MissionRepository;
 
 public interface MissionHandlers {
     static void handleMissionList() {
-        if(MissionRepository.getMissionSet().isEmpty()) {
+        if (MissionRepository.getMissionSet().isEmpty()) {
             System.out.println("There are currently no missions");
             return;
         }
         System.out.println("Missions");
-        for(Mission m : MissionRepository.getMissionSet()) {
+        for (Mission m : MissionRepository.getMissionSet()) {
             System.out.println(m.toString());
         }
     }
@@ -22,12 +22,8 @@ public interface MissionHandlers {
     }
 
     static void handleMissionDelete(int id) {
-        for(Mission m : MissionRepository.getMissionSet()) {
-            if(m.getId() == id) {
-                for(Rocket r : m.getRocketSet()) {
-                    r.setMission(null);
-                }
-
+        for (Mission m : MissionRepository.getMissionSet()) {
+            if (m.getId() == id) {
                 MissionRepository.deleteMission(m);
                 System.out.println("Mission removed: \n" + m);
                 return;
