@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import org.tpuchal.model.Mission;
 import org.tpuchal.model.Rocket;
 import org.tpuchal.repository.MissionRepository;
+
 import java.lang.reflect.Field;
 import java.util.Set;
 
@@ -38,7 +39,6 @@ public class MissionRepositoryTest extends TestCase {
 
     public void testAddMission_DuplicateMission() {
         try {
-            clearMissionRepository();
             Mission testMission = new Mission("Test Mission");
 
             MissionRepository.addMission(testMission);
@@ -54,7 +54,6 @@ public class MissionRepositoryTest extends TestCase {
 
     public void testAddMission_MultipleUniqueRockets() {
         try {
-            clearMissionRepository();
             Mission mission_a = new Mission("Mission A");
             Mission mission_b = new Mission("Mission B");
             Mission mission_c = new Mission("Mission C");
@@ -71,8 +70,6 @@ public class MissionRepositoryTest extends TestCase {
 
     public void testAddMission_NullMission_ThrowsException() {
         try {
-            clearMissionRepository();
-
             try {
                 MissionRepository.addMission(null);
                 fail("Adding null mission should throw IllegalArgumentException");
@@ -89,7 +86,6 @@ public class MissionRepositoryTest extends TestCase {
 
     public void testDeleteRocket_ExistingRocket() {
         try {
-            clearMissionRepository();
             Mission testMission = new Mission("Test Mission");
             assertEquals("Repository should have 1 rocket before deletion", 1, MissionRepository.getMissionSet().size());
 
@@ -105,7 +101,6 @@ public class MissionRepositoryTest extends TestCase {
 
     public void testDeleteMission_NonExistentMission() {
         try {
-            clearMissionRepository();
             Mission existingMission = new Mission("Existing Mission");
             Mission nonExistentMission = new Mission("Non Existent Mission");
             MissionRepository.deleteMission(nonExistentMission);
@@ -124,7 +119,6 @@ public class MissionRepositoryTest extends TestCase {
 
     public void testDeleteRocket_FromEmptyRepository() {
         try {
-            clearMissionRepository();
             Mission testMission = new Mission("Test Mission");
             MissionRepository.deleteMission(testMission);
 
@@ -137,7 +131,6 @@ public class MissionRepositoryTest extends TestCase {
 
     public void testDeleteMission_NullMission() {
         try {
-            clearMissionRepository();
             Mission testMission = new Mission("Test Mission");
 
             assertEquals("Repository should contain 1 Mission", 1, MissionRepository.getMissionSet().size());
@@ -154,8 +147,6 @@ public class MissionRepositoryTest extends TestCase {
 
     public void testGetMissionSet_EmptyRepository() {
         try {
-            clearMissionRepository();
-
             Set<Mission> Missions = MissionRepository.getMissionSet();
 
             assertNotNull("getMissionSet() should never return null", Missions);
@@ -167,7 +158,6 @@ public class MissionRepositoryTest extends TestCase {
 
     public void testGetMissionSet_WithMissions() {
         try {
-            clearMissionRepository();
             Mission Mission_x = new Mission("Mission X");
             Mission Mission_y = new Mission("Mission Y");
 
@@ -184,7 +174,6 @@ public class MissionRepositoryTest extends TestCase {
 
     public void testRepositoryIntegration_AddDeleteCycle() {
         try {
-            clearMissionRepository();
             Mission Mission = new Mission("Test Mission");
             clearMissionRepository();
 
@@ -203,8 +192,6 @@ public class MissionRepositoryTest extends TestCase {
 
     public void testAddMission_MultipleNullAttempts() {
         try {
-            clearMissionRepository();
-
             for (int i = 0; i < 3; i++) {
                 try {
                     MissionRepository.addMission(null);
@@ -224,7 +211,6 @@ public class MissionRepositoryTest extends TestCase {
 
     public void testAddMission_NullDoesNotAffectValidOperations() {
         try {
-            clearMissionRepository();
             Mission validMission = new Mission("Valid Mission");
 
             assertEquals("Repository should contain 1 Mission", 1, MissionRepository.getMissionSet().size());
@@ -252,7 +238,6 @@ public class MissionRepositoryTest extends TestCase {
 
     public void testDeleteMission_DeleteCorrectlyNullifiesRocketMissions() {
         try {
-            clearMissionRepository();
             Mission testMission = new Mission("Test Mission");
             Rocket testRocket = new Rocket("Test Rocket");
 

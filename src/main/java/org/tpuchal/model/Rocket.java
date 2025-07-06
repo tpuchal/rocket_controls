@@ -52,6 +52,12 @@ public class Rocket {
         this.status = status;
     }
 
+    public boolean isMissionNull() {
+        if (this.mission == null)
+            return true;
+        return false;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

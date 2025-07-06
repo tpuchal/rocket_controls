@@ -24,9 +24,9 @@ public class MissionRepository {
 
     public static void deleteMission(Mission mission) {
         if (missionSet.contains(mission)) {
-            for(Rocket r : mission.getRocketSet()) {
+            for (Rocket r : mission.getRocketSet()) {
                 r.setMission(null);
-                if(r.getStatus().equals(RocketStatus.IN_SPACE)) {
+                if (r.getStatus().equals(RocketStatus.IN_SPACE)) {
                     RocketRepository.deleteRocket(r);
                 } else {
                     r.setStatus(RocketStatus.ON_GROUND);

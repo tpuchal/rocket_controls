@@ -35,16 +35,21 @@ public interface RelationHandlers {
             throw new Exception("Could not find objects with given IDs");
         }
 
-        rocket.get().setMission(mission.get());
-        mission.get().getRocketSet().add(rocket.get());
-        rocket.get().setStatus(RocketStatus.IN_SPACE);
-        updateMissionStatus(mission.get());
+        if (rocket.get().isMissionNull()) {
+            rocket.get().setMission(mission.get());
+            mission.get().getRocketSet().add(rocket.get());
+            rocket.get().setStatus(RocketStatus.IN_SPACE);
+            updateMissionStatus(mission.get());
+        } else {
+            System.out.println("You cannot add this rocket to the mission! It already has mission of ID:" + rocket.get().getMission().getId());
+        }
+
     }
 
     static void updateMissionStatus(Mission mission) {
         Set<Rocket> assignedRockets = mission.getRocketSet();
 
-        if(assignedRockets.isEmpty()) {
+        if (assignedRockets.isEmpty()) {
             mission.setStatus(MissionStatus.SCHEDULED);
         } else {
             boolean hasRocketInRepair = assignedRockets.stream()

@@ -243,24 +243,6 @@ public class RelationHandlersTest extends TestCase {
         }
     }
 
-    public void testHandleRocketToMissionConnection_ReconnectRocketToDifferentMission() {
-        try {
-            int rocketId = testRocket1.getId();
-            int mission1Id = testMission1.getId();
-            int mission2Id = testMission2.getId();
-
-            RelationHandlers.handleRocketToMissionConnection(rocketId, mission1Id);
-            assertEquals("Rocket should be connected to mission1", testMission1, testRocket1.getMission());
-
-            RelationHandlers.handleRocketToMissionConnection(rocketId, mission2Id);
-            assertEquals("Rocket should now be connected to mission2", testMission2, testRocket1.getMission());
-
-            assertTrue("Mission2 should contain the rocket", testMission2.getRocketSet().contains(testRocket1));
-
-        } catch (Exception e) {
-            fail("Rocket reconnection should work: " + e.getMessage());
-        }
-    }
 
     public void testHandleRocketToMissionConnection_RepositoryStateUnchanged() {
         try {

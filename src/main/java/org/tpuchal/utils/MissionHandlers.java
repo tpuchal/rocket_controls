@@ -6,6 +6,7 @@ import org.tpuchal.model.enums.MissionStatus;
 import org.tpuchal.model.enums.RocketStatus;
 import org.tpuchal.repository.MissionRepository;
 
+import java.util.Comparator;
 import java.util.HashSet;
 
 public interface MissionHandlers {
@@ -15,9 +16,13 @@ public interface MissionHandlers {
             return;
         }
         System.out.println("Missions");
-        for (Mission m : MissionRepository.getMissionSet()) {
-            System.out.println(m.toString());
-        }
+        MissionRepository.getMissionSet()
+                .stream()
+                .sorted(Comparator
+                        .comparingInt((Mission m) -> m.getRocketSet().size())
+                        .reversed()
+                        .thenComparing(Mission::getMissionName, Comparator.reverseOrder()))
+                .forEach(m -> System.out.println(m.toString()));
     }
 
     static void handleMissionAdd(String name) throws Exception {
@@ -37,10 +42,10 @@ public interface MissionHandlers {
     }
 
     static void handleMissionEnd(int id) {
-        for(Mission m : MissionRepository.getMissionSet()) {
-            if(m.getId() == id) {
+        for (Mission m : MissionRepository.getMissionSet()) {
+            if (m.getId() == id) {
                 m.setStatus(MissionStatus.ENDED);
-                for(Rocket r : m.getRocketSet()) {
+                for (Rocket r : m.getRocketSet()) {
                     r.setMission(null);
                     r.setStatus(RocketStatus.ON_GROUND);
                 }
