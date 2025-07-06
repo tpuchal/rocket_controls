@@ -2,7 +2,7 @@ package org.tpuchal.banner;
 
 public  class AppBanner {
     public static void printBanner() {
-        System.out.print("oooooooooo.                                                                                                .                      oooo                              .o  \n" +
+        System.out.print("\n\noooooooooo.                                                                                                .                      oooo                              .o  \n" +
                 "`888'   `Y8b                                                                                             .o8                      `888                            o888  \n" +
                 " 888      888 oooo d8b  .oooo.    .oooooooo  .ooooo.  ooo. .oo.         .ooooo.   .ooooo.  ooo. .oo.   .o888oo oooo d8b  .ooooo.   888   .oooo.o      oooo    ooo  888  \n" +
                 " 888      888 `888\"\"8P `P  )88b  888' `88b  d88' `88b `888P\"Y88b       d88' `\"Y8 d88' `88b `888P\"Y88b    888   `888\"\"8P d88' `88b  888  d88(  \"8       `88.  .8'   888  \n" +

@@ -23,8 +23,9 @@ public interface RocketHandlers {
     static void handleRocketDelete(int id) {
         for(Rocket r : RocketRepository.getRocketSet()) {
             if(r.getId() == id) {
-                RocketRepository.getRocketSet().remove(r);
-                System.out.println("Rocket removed: " + r.toString());
+                r.setMission(null);
+                RocketRepository.deleteRocket(r);
+                System.out.println("Rocket removed: " + r);
                 return;
             }
         }

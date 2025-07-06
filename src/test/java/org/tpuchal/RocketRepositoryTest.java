@@ -71,7 +71,7 @@ public class RocketRepositoryTest extends TestCase {
             assertEquals("Repository should contain exactly 1 rocket (no duplicates)", 1, rockets.size());
             assertTrue("Repository should contain the rocket", rockets.contains(testRocket));
         } catch (Exception e) {
-            fail("Exception occurred: " + e.getMessage());
+            assertEquals("This rocket already exists", e.getMessage());
         }
     }
 
@@ -142,7 +142,7 @@ public class RocketRepositoryTest extends TestCase {
             assertEquals("Repository should still have 1 rocket", 1, rockets.size());
             assertTrue("Repository should still contain the existing rocket", rockets.contains(existingRocket));
         } catch (Exception e) {
-            fail("Exception occurred: " + e.getMessage());
+            assertEquals("Cannot delete. No such rocket", e.getMessage());
         }
     }
 
@@ -172,7 +172,7 @@ public class RocketRepositoryTest extends TestCase {
             assertEquals("Repository should still contain 1 rocket after trying to delete null", 1, rockets.size());
             assertTrue("Repository should still contain the test rocket", rockets.contains(testRocket));
         } catch (Exception e) {
-            fail("Exception occurred: " + e.getMessage());
+            assertEquals("Cannot delete. No such rocket", e.getMessage());
         }
     }
 

@@ -2,7 +2,9 @@ package org.tpuchal;
 
 import org.tpuchal.banner.AppBanner;
 import org.tpuchal.banner.HelpBanner;
+import org.tpuchal.utils.MissionHandlers;
 import org.tpuchal.utils.RocketHandlers;
+import org.tpuchal.utils.UserInputUtils;
 
 import java.util.Scanner;
 
@@ -38,19 +40,22 @@ public class App {
         try {
             switch (command) {
                 case "rocket-add":
-                    StringBuilder sb = new StringBuilder();
-                    for(int i = 1; i < parts.length ; i++) {
-                        sb.append(parts[i]);
-                        sb.append(" ");
-                    }
-                    RocketHandlers.handleRocketAdd(sb.toString().trim());
+                    RocketHandlers.handleRocketAdd(UserInputUtils.joinAndSanitizeArguments(parts));
                     break;
                 case "rocket-list":
                     RocketHandlers.handleRocketList();
                     break;
                 case "rocket-delete":
-                    int id = Integer.parseInt(parts[1]);
-                    RocketHandlers.handleRocketDelete(id);
+                    RocketHandlers.handleRocketDelete(UserInputUtils.retreiveIdFromInput(parts));
+                    break;
+                case "mission-add":
+                    MissionHandlers.handleMissionAdd(UserInputUtils.joinAndSanitizeArguments(parts));
+                    break;
+                case "mission-list":
+                    MissionHandlers.handleMissionList();
+                    break;
+                case "mission-delete":
+                    MissionHandlers.handleMissionDelete(UserInputUtils.retreiveIdFromInput(parts));
                     break;
                 case "help":
                     HelpBanner.displayHelpBanner();

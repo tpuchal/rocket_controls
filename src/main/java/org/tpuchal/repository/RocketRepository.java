@@ -15,12 +15,16 @@ public class RocketRepository {
 
         if(!rocketSet.contains(rocket)) {
             rocketSet.add(rocket);
+        } else {
+            throw new IllegalArgumentException("This rocket already exists");
         }
     }
 
     public static void deleteRocket(Rocket rocket) {
         if(rocketSet.contains(rocket)) {
             rocketSet.remove(rocket);
+        } else {
+            throw new IllegalArgumentException("Cannot delete. No such rocket");
         }
     }
 
