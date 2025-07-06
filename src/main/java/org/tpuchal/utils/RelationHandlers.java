@@ -40,8 +40,11 @@ public interface RelationHandlers {
             mission.get().getRocketSet().add(rocket.get());
             rocket.get().setStatus(RocketStatus.IN_SPACE);
             updateMissionStatus(mission.get());
+            System.out.println("Successfully added rocket " + rocket.get().getName() + " (ID: " + rocket.get().getId()
+                    + ") to mission " + mission.get().getMissionName() + " (ID: " + mission.get().getId() + ")");
         } else {
-            System.out.println("You cannot add this rocket to the mission! It already has mission of ID:" + rocket.get().getMission().getId());
+            System.out.println("You cannot add this rocket to the mission! It already has mission of ID:"
+                    + rocket.get().getMission().getId());
         }
 
     }

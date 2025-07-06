@@ -32,6 +32,10 @@ public class Rocket {
         this.id = idCounter++;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -59,7 +63,7 @@ public class Rocket {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Rocket information:\n");
+        sb.append("\nRocket information:\n");
         sb.append("Rocket id: ").append(this.id).append("\n");
         sb.append("Rocket name: ").append(this.name).append("\n");
         if (mission == null) {

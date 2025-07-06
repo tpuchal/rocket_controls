@@ -65,13 +65,13 @@ public class Mission {
 
     @Override
     public String toString() {
-        String sb = "=========MISSION: " +
+
+        return "=========MISSION: " +
                 this.getMissionName() + "=========\n" +
                 "Mission Id: " + this.getId() + "\n" +
                 "Mission Status: " + this.getStatus() + "\n" +
                 "Rockets: \n" +
-                rockets() + "\n";
-
-        return sb;
+                rockets() + "\n"
+                + "===========================\n";
     }
 }
