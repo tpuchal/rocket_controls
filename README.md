@@ -71,6 +71,9 @@ I have taken a liberty to break some conventions but only because we are dealing
 Normally, one should not add objects to repository straight from the constructor, but in this case I think it can be allowed. 
 After all we are dealing with a very simple system and I believe that is ok in this case. 
 
+I could have probably grouped all the system outputs somehow and throw them out of the business logic, however in its current state
+the project does not seem to have readability issues.
+
 When it comes to going all in on TDD I have not been working strictly in cycle of: write tests->tests fail->write code->test pass. Some of the work has been done this way, some of the work has been not.
 Probably, if all the work had been done this way would prove that I can do TDD properly, however sometimes it is easier to write logic first and then start thinking of corner cases later. 
 
@@ -83,7 +86,7 @@ I have not created other branches than main because with such a simple project i
 
 There are no commands to change mission status apart from mission-end, simply because all other mission statuses are a derivative of rocket statuses, thus I have decided to keep the commands as you see in the file.
 
-Similarly priting all the information to the console is my interpretation of how I believe it should look like.
+Similarly, printing all the information to the console is my interpretation of how I believe it should look like.
 Especially considering the fact that I use IDs to do operations on objects, ant not names.
 
 ## My assumptions
