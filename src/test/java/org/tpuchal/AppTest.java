@@ -1,4 +1,4 @@
-package org.example;
+package org.tpuchal;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

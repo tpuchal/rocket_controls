@@ -1,4 +1,4 @@
-package org.example.banner;
+package org.tpuchal.banner;
 
 public  class AppBanner {
     public static void printBanner() {
