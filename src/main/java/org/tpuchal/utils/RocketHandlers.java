@@ -3,8 +3,8 @@ package org.tpuchal.utils;
 import org.tpuchal.model.Rocket;
 import org.tpuchal.repository.RocketRepository;
 
-public class RocketHandlers {
-    public static  void handleRocketList() {
+public interface RocketHandlers {
+    static  void handleRocketList() {
         if(RocketRepository.getRocketSet().isEmpty()) {
             System.out.println("There are no currently no rockets");
             return;
@@ -15,12 +15,12 @@ public class RocketHandlers {
         }
     }
 
-    public static void handleRocketAdd(String name) throws Exception {
+   static void handleRocketAdd(String name) throws Exception {
         Rocket r = new Rocket(name);
         System.out.println("New rocket added: \n" + r.toString());
     }
 
-    public static void handleRocketDelete(int id) {
+    static void handleRocketDelete(int id) {
         for(Rocket r : RocketRepository.getRocketSet()) {
             if(r.getId() == id) {
                 RocketRepository.getRocketSet().remove(r);
