@@ -81,6 +81,11 @@ Examples of this would be MissionHandlers.java and RocketHandlers.java interface
 
 I have not created other branches than main because with such a simple project it does not make any sense to play with PRs
 
+There are no commands to change mission status apart from mission-end, simply because all other mission statuses are a derivative of rocket statuses, thus I have decided to keep the commands as you see in the file.
+
+Similarly priting all the information to the console is my interpretation of how I believe it should look like.
+Especially considering the fact that I use IDs to do operations on objects, ant not names.
+
 ## My assumptions
 I have decided that missions and rockets should be connected by IDs.
 I have chosen int because it is enough for this solution. I highly doubt anybody is going to send billions of rockets into space (by the time they do they probably won't use such simple system)
